@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_management_app/controllers/data_controllers.dart';
+import 'package:task_management_app/screens/view_task.dart';
 import 'package:task_management_app/widgets/button_widget.dart';
 import 'package:task_management_app/widgets/tasks_widgets.dart';
 
 import '../Utils/app_colors.dart';
+import 'added.task.dart';
 
 class AllTasks extends StatelessWidget {
   const AllTasks({Key? key}) : super(key: key);
+  _loadData() async {
+    await Get.find<DataController>().getData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(Get.find<DataController>().myData.length);
+    _loadData();
+
     List myData = [
       "Try harder",
       "Try smarter",
@@ -101,78 +110,102 @@ class AllTasks extends StatelessWidget {
             ),
           ),
           Flexible(
-            child: ListView.builder(
-                itemCount: myData.length,
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    background: leftEditIcon,
-                    secondaryBackground: rightDeleteIcon,
-                    onDismissed: (DismissDirection direction) {
-                      print("after dismiss");
-                    },
-                    confirmDismiss: (DismissDirection direction) async {
-                      if (direction == DismissDirection.startToEnd) {
-                        showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            barrierColor: Colors.transparent,
-                            context: context,
-                            builder: (_) {
-                              return Container(
-                                height: 550,
-                                decoration: BoxDecoration(
-                                    color:
-                                        AppColors.mainColors.withOpacity(0.4),
-                                    borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      topLeft: Radius.circular(20),
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20,
-                                    right: 20,
+            child: GetBuilder<DataController>(
+              builder: (controller) {
+                return ListView.builder(
+                  itemCount: controller.myData.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      background: leftEditIcon,
+                      secondaryBackground: rightDeleteIcon,
+                      onDismissed: (DismissDirection direction) {
+                        print("after dismiss");
+                      },
+                      confirmDismiss: (DismissDirection direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              barrierColor: Colors.transparent,
+                              context: context,
+                              builder: (_) {
+                                return Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          AppColors.mainColors.withOpacity(0.4),
+                                      borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                      )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 20,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.off(() => ViewTask(
+                                                id: int.parse(controller
+                                                    .myData[index]["id"]
+                                                    .toString())));
+                                          },
+                                          child: ButtonWidget(
+                                              backgroundcolor:
+                                                  AppColors.mainColors,
+                                              text: "View",
+                                              textColor: Colors.white),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.off(() => EditTask(
+                                                id: int.parse(controller
+                                                    .myData[index]["id"]
+                                                    .toString())));
+                                          },
+                                          child: ButtonWidget(
+                                              backgroundcolor:
+                                                  AppColors.mainColors,
+                                              text: "Edit",
+                                              textColor: Colors.white),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ButtonWidget(
-                                          backgroundcolor: AppColors.mainColors,
-                                          text: "View",
-                                          textColor: Colors.white),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      ButtonWidget(
-                                          backgroundcolor: AppColors.mainColors,
-                                          text: "Edit",
-                                          textColor: Colors.white),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            });
-                        return false;
-                      } else {
-                        return Future.delayed(
-                          Duration(seconds: 1),
-                          () => direction == DismissDirection.endToStart,
-                        );
-                      }
-                    },
-                    key: ObjectKey(index),
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        bottom: 10,
+                                );
+                              });
+                          return false;
+                        } else {
+                          return Future.delayed(
+                            Duration(seconds: 1),
+                            () => direction == DismissDirection.endToStart,
+                          );
+                        }
+                      },
+                      key: ObjectKey(index),
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 10,
+                        ),
+                        child: TasksWidget(
+                          text: controller.myData[index]["task_name"],
+                          color: Colors.blueGrey,
+                        ),
                       ),
-                      child: TasksWidget(
-                        text: myData[index],
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  );
-                }),
-          )
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

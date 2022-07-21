@@ -16,7 +16,7 @@ class Add extends StatelessWidget {
     TextEditingController namecontroller = TextEditingController();
     TextEditingController detailcontroller = TextEditingController();
 
-    bool _dataValdation() {
+    bool _dataValidation() {
       if (namecontroller.text.trim() == '') {
         Message.taskErrorOrWarning("Task name", "Your task name is empty");
         return false;
@@ -85,16 +85,16 @@ class Add extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // if (_dataValdation()) {
-                    //   Get.find<DataController>().postData(
-                    //     namecontroller.text.trim(),
-                    //     detailcontroller.text.trim(),
-                    //   );
-                    //   Get.to(
-                    //     () => AllTasks(),
-                    //     transition: Transition.circularReveal,
-                    //   );
-                    // }
+                    if (_dataValidation()) {
+                      Get.find<DataController>().postData(
+                        namecontroller.text.trim(),
+                        detailcontroller.text.trim(),
+                       );
+                      Get.to(
+                        () => AllTasks(),
+                        transition: Transition.circularReveal,
+                      );
+                    }
                   },
                   child: ButtonWidget(
                       backgroundcolor: AppColors.mainColors,
