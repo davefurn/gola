@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_management_app/Utils/app_colors.dart';
 import 'package:task_management_app/controllers/data_controllers.dart';
+import 'package:task_management_app/routes/routes.dart';
 import 'package:task_management_app/widgets/button_widget.dart';
 import 'package:task_management_app/widgets/error_warning_ms.dart';
 
@@ -66,14 +67,13 @@ class EditTask extends StatelessWidget {
                     const SizedBox(
                       height: 60,
                     ),
-                    IconButton( 
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
+                    IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
                         onPressed: () {
                           Get.back();
                         },
                         icon: Icon(
-                          
                           Icons.arrow_back,
                           color: AppColors.secondaryColor,
                         )),
@@ -101,14 +101,14 @@ class EditTask extends StatelessWidget {
                       onTap: () {
                         if (_dataValidation()) {
                           Get.find<DataController>().updateData(
-                            namecontroller.text.trim(),
-                            detailcontroller.text.trim(),
-                            int.parse(controller.singleData["id"])
-                          );
-                          Get.to(
-                            () => AllTasks(),
-                            transition: Transition.circularReveal,
-                          );
+                              namecontroller.text.trim(),
+                              detailcontroller.text.trim(),
+                              int.parse(controller.singleData["id"]));
+                          // Get.to(
+                          //   () => AllTasks(),
+                          //   transition: Transition.circularReveal,
+                          // );
+                          Get.offNamed(RoutesClass.getAllTaskRoute());
                         }
                       },
                       child: ButtonWidget(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_management_app/Utils/app_colors.dart';
+import 'package:task_management_app/routes/routes.dart';
 import 'package:task_management_app/screens/tasks.dart';
 import 'package:task_management_app/widgets/button_widget.dart';
 import 'package:get/get.dart';
@@ -58,13 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                Get.to(
-                  () => Add(),
-                  transition: Transition.zoom,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
-                );
+                // Get.to(
+                //   () => Add(),
+                //   transition: Transition.zoom,
+                //   duration: Duration(
+                //     milliseconds: 500,
+                //   ),
+                // );
+                Get.toNamed(RoutesClass.getAddTaskRoute());
               },
               child: ButtonWidget(
                   backgroundcolor: AppColors.mainColors,
@@ -76,13 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                Get.to(
-                  () => AllTasks(),
-                  transition: Transition.fade,
-                  duration: Duration(
-                    seconds: 1,
-                  ),
-                );
+                // Get.to(
+                //   () => AllTasks(),
+                //   transition: Transition.fade,
+                //   duration: Duration(
+                //     seconds: 1,
+                //   ),
+                // );
+                Get.toNamed(RoutesClass.getAllTaskRoute());
               },
               child: ButtonWidget(
                 backgroundcolor: AppColors.textHolder,

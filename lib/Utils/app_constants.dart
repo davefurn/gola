@@ -4,4 +4,5 @@ class AppConstants {
   static const String POST_TASKS = "/create";
   static const String GET_TASK = "/gettask/";
   static const String UPDATE_TASKS = "/update/";
+  static const String DELETE_TASKS = "/delete/";
 }

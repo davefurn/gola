@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_management_app/controllers/data_controllers.dart';
+import 'package:task_management_app/routes/routes.dart';
 import 'package:task_management_app/screens/home_screen.dart';
 
 import 'screens/add_task_screen.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      initialRoute: RoutesClass.getHomeRoute(),
+      getPages: RoutesClass.routes,
     );
   }
 }

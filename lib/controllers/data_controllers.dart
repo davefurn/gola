@@ -21,7 +21,7 @@ class DataController extends GetxController {
       if (response.statusCode == 200) {
         _myData = response.body;
         print("we got the data");
-        update();
+        
       } else {
         print("we didn't get the data" + response.body);
       }
@@ -29,6 +29,7 @@ class DataController extends GetxController {
       print("error in the controller is " + e.toString());
     }
     _isLoading = false;
+    update();
   }
 
   Future<void> getSingleData(String id) async {
@@ -46,6 +47,7 @@ class DataController extends GetxController {
       print("we didn't get the single data");
     }
     _isLoading = false;
+    update();
   }
 
   Future<void> postData(String task, String taskDetail) async {
@@ -56,11 +58,12 @@ class DataController extends GetxController {
     });
     print(response.body);
     if (response.statusCode == 200) {
-      update();
+    
       print("data post successful");
     } else {
       print("data post failed");
     }
+    update();
   }
 
   Future<void>  updateData(String task, String taskDetail, int id) async {
@@ -72,10 +75,30 @@ class DataController extends GetxController {
     });
     print(response.body);
     if (response.statusCode == 200) {
-      update();
+     
       print("data post successful");
     } else {
       print("data post failed");
     }
+    update();
+  }
+
+   Future<void>  deleteData(int id) async {
+    _isLoading = true;
+    update();
+    Response response =
+        await service.deleteData('${AppConstants.DELETE_TASKS}' '?id=$id');
+    print(response.body);
+    if (response.statusCode == 200) {
+     
+      print("data deleted successful");
+    } else {
+      print("data delete failed");
+    }
+    await Future.delayed(Duration(seconds: 1), (){
+       _isLoading = false;
+       update();
+    });
+    
   }
 }

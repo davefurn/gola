@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_management_app/Utils/app_colors.dart';
 import 'package:task_management_app/controllers/data_controllers.dart';
+import 'package:task_management_app/routes/routes.dart';
 import 'package:task_management_app/widgets/button_widget.dart';
 import 'package:task_management_app/widgets/error_warning_ms.dart';
 
@@ -53,9 +54,11 @@ class Add extends StatelessWidget {
             Column(
               children: [
                 const SizedBox(
-                  height: 40,
+                  height: 60,
                 ),
                 IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                     onPressed: () {
                       Get.back();
                     },
@@ -89,11 +92,12 @@ class Add extends StatelessWidget {
                       Get.find<DataController>().postData(
                         namecontroller.text.trim(),
                         detailcontroller.text.trim(),
-                       );
-                      Get.to(
-                        () => AllTasks(),
-                        transition: Transition.circularReveal,
                       );
+                      // Get.to(
+                      //   () => AllTasks(),
+                      //   transition: Transition.circularReveal,
+                      // );
+                      Get.offNamed(RoutesClass.getAllTaskRoute());
                     }
                   },
                   child: ButtonWidget(
